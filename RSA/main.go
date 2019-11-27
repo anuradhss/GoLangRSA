@@ -50,10 +50,8 @@ func verifySignature(message string, signed string, publickey *rsa.PublicKey) {
 		fmt.Println(err)
 		return
 	}
-	fmt.Printf("\n\n ==================== \n\n")
 	fmt.Println("VERIFIED")
 	return
-
 }
 
 // main function
