@@ -1,34 +1,69 @@
 package main
 
 import (
+	"crypto"
 	"crypto/rand"
 	"crypto/rsa"
+	"crypto/sha256"
 	"fmt"
 )
 
-// declaring public and private key to hold keys
-var _publicKey rsa.PublicKey
-var _privateKey rsa.PrivateKey
-
-// generate RSA key pair -> public key and private key
-func generateKeyPair() {
-	reader := rand.Reader
-	bitSize := 512
-
-	key, err := rsa.GenerateKey(reader, bitSize)
+// generating RSA public and private key pair
+func generateRSAKeyPair() (*rsa.PrivateKey, *rsa.PublicKey) {
+	privateKey, err := rsa.GenerateKey(rand.Reader, 2048)
 	if err != nil {
-		fmt.Println("Error Encountered : ", err)
+		fmt.Println("Error occured while generating key pair ")
+		return nil, nil
+	}
+	return privateKey, &privateKey.PublicKey
+}
+
+// sign With Private key
+func signWithPrivateKey(message string, privatekey *rsa.PrivateKey) string {
+
+	byteMessage := []byte(message)
+	hashed := sha256.New()
+	hashed.Write(byteMessage)
+	digest := hashed.Sum(nil)
+
+	signed, err := rsa.SignPKCS1v15(rand.Reader, privatekey, crypto.SHA256, digest)
+	if err != nil {
+		fmt.Println("Error Occured While Signing With Private Key")
+		return ""
 	}
 
-	_publicKey := key.PublicKey
-	_privateKey := key
+	signedstring := string(signed)
+	return signedstring
+}
 
-	fmt.Println("public key : ", _publicKey)
-	fmt.Println("private key : ", _privateKey)
+// verify The Signature
+func verifySignature(message string, signed string, publickey *rsa.PublicKey) {
+
+	byteMessage := []byte(message)
+	byteSigned := []byte(signed)
+	hashed := sha256.New()
+	hashed.Write(byteMessage)
+	digest := hashed.Sum(nil)
+
+	err := rsa.VerifyPKCS1v15(publickey, crypto.SHA256, digest, byteSigned)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Printf("\n\n ==================== \n\n")
+	fmt.Println("VERIFIED")
+	return
+
 }
 
 // main function
 func main() {
-	fmt.Println("working fine")
-	generateKeyPair()
+	//Invoking Generate Key Pair Function
+	privateKey, publicKey := generateRSAKeyPair()
+
+	//Invoking Sign With Private Key Function
+	signed := signWithPrivateKey("hello anuradh", privateKey)
+
+	//Invoking Verify Signature Function
+	verifySignature("hello anuradh", signed, publicKey)
 }
