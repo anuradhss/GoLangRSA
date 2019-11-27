@@ -62,8 +62,12 @@ func main() {
 	privateKey, publicKey := generateRSAKeyPair()
 
 	//Invoking Sign With Private Key Function
-	signed := signWithPrivateKey("hello anuradh", privateKey)
+	if privateKey != nil {
+		signed := signWithPrivateKey("hello anuradh", privateKey)
 
-	//Invoking Verify Signature Function
-	verifySignature("hello anuradh", signed, publicKey)
+		if publicKey != nil {
+			//Invoking Verify Signature Function
+			verifySignature("hello anuradh", signed, publicKey)
+		}
+	}
 }
