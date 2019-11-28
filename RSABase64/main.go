@@ -80,7 +80,16 @@ func signWithPrivateKey(message string, privatekey *rsa.PrivateKey) string {
 		return ""
 	}
 
+	_signedString := base64.StdEncoding.EncodeToString(signed)
+
+	fmt.Println("Signed Readable Format : ", _signedString)
 	signedstring := string(signed)
+
+	//test area
+	b := []byte(signedstring)
+	fmt.Println("HELLO HELLO ", string(b))
+	//test area
+
 	return signedstring
 }
 
