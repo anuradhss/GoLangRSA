@@ -1,7 +1,10 @@
 package main
 
 import (
+	"crypto"
+	"crypto/rand"
 	"crypto/rsa"
+	"crypto/sha256"
 	"crypto/x509"
 	"encoding/base64"
 	"fmt"
@@ -63,6 +66,42 @@ func generateBase64FromPrivateKey(privatekey *rsa.PrivateKey) {
 	fmt.Println(privateKeyString)
 }
 
+// sign with generated private key
+func signWithPrivateKey(message string, privatekey *rsa.PrivateKey) string {
+
+	byteMessage := []byte(message)
+	hashed := sha256.New()
+	hashed.Write(byteMessage)
+	digest := hashed.Sum(nil)
+
+	signed, err := rsa.SignPKCS1v15(rand.Reader, privatekey, crypto.SHA256, digest)
+	if err != nil {
+		fmt.Println("Error Occured While Signing With Private Key")
+		return ""
+	}
+
+	signedstring := string(signed)
+	return signedstring
+}
+
+// verify the signature with publick key
+func verifySignatureWithPublicKey(message string, signed string, publickey *rsa.PublicKey) {
+
+	byteMessage := []byte(message)
+	byteSigned := []byte(signed)
+	hashed := sha256.New()
+	hashed.Write(byteMessage)
+	digest := hashed.Sum(nil)
+
+	err := rsa.VerifyPKCS1v15(publickey, crypto.SHA256, digest, byteSigned)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Println("VERIFIED")
+	return
+}
+
 func main() {
 	fmt.Println("Working Properly with signed : kLqqHbvfPn0HM3zDS5HWc8rK4DcpEAsGClRVjZP9e0KZzODo+8f38X1ZEMOZ+PjtSmA/H+g42q2VxEu1y+Pq3A== && text : Hello")
 	fmt.Printf("\n\n ================ Generating Publick Key ================== \n\n")
@@ -75,4 +114,9 @@ func main() {
 	fmt.Println(privateSecKey)
 	fmt.Printf("\n\n ================ Generating Private Key Base64 ================== \n\n")
 	generateBase64FromPrivateKey(privateSecKey)
+	fmt.Printf("\n\n ================ Sign With Generated Private Key ================== \n\n")
+	signedPayLoad := signWithPrivateKey("Hello", privateSecKey)
+	fmt.Println(signedPayLoad)
+	fmt.Printf("\n\n ================ Verify With Generated Private Key ================== \n\n")
+	verifySignatureWithPublicKey("Hello", signedPayLoad, publicSecKey)
 }
