@@ -1,6 +1,6 @@
 ### This Repo Address to Basic RSA functions and PKI Infrastructure With Go as followings:
 
-### To Run
+### `To Run`
 navigate to the section and do `go run main.go`. to see the sections please use below structure.
 
 ![Go RSA](./gopher.png)
@@ -17,7 +17,7 @@ navigate to the section and do `go run main.go`. to see the sections please use 
 
 ---
 
-### Author
+### `Author`
 
 - [Anuradh caldera](https://www.linkedin.com/in/anuradhcaldera/), anuradhtuck@gmail.com, caldera.ca.90@gmail.com
 - [anuradhss](https://anuradhss.github.io/)
