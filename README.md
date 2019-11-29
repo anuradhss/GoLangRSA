@@ -12,6 +12,8 @@ navigate to the section and do `go run main.go`. to see the sections please use 
 - #### [`Sign and Verify using generated keys with it's base64`](https://github.com/anuradhss/GoLangRSA/blob/master/RSABase64/main.go)
 - #### [`PKI Infrastructure`](https://github.com/anuradhss/GoLangRSA/blob/master/RSAEncryptionDecryption/main.go)
 - #### [`Encrypt with public key and Decrypt with private key`](https://github.com/anuradhss/GoLangRSA/blob/master/RSAEncryptionDecryption/main.go)
+- #### [`Decrypt with server private key which is Encrypted by server public key`](https://github.com/anuradhss/GoLangRSA/tree/master/RSAEncryptionDecryptionWithBase64)
+
 
 ---
 
