@@ -25,6 +25,8 @@ navigate to the section and do `go run main.go`. to see the sections please use 
 ### `Android Project Which Compatible With This`
 - `OnGoing, will update once completed`
 
+---
+
 ### `Author`
 
 - [Anuradh caldera](https://www.linkedin.com/in/anuradhcaldera/), anuradhtuck@gmail.com, caldera.ca.90@gmail.com
