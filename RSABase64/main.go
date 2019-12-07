@@ -126,6 +126,6 @@ func main() {
 	fmt.Printf("\n\n ================ Sign With Generated Private Key ================== \n\n")
 	signedPayLoad := signWithPrivateKey("Hello", privateSecKey)
 	fmt.Println(signedPayLoad)
-	fmt.Printf("\n\n ================ Verify With Generated Private Key ================== \n\n")
+	fmt.Printf("\n\n ================ Verify With Generated Public Key Key ================== \n\n")
 	verifySignatureWithPublicKey("Hello", signedPayLoad, publicSecKey)
 }
