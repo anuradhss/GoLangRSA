@@ -111,6 +111,31 @@ func verifySignatureWithPublicKey(message string, signed string, publickey *rsa.
 	return
 }
 
+// verify the signature with public key with signed base64
+func verifyBase64SignatureWithPublicKey(message string, signedbase64 string, publickey *rsa.PublicKey) {
+
+	decodeSigned, err := base64.StdEncoding.DecodeString(signedbase64)
+	if err != nil {
+		fmt.Println("Error occured while decoding signed")
+		return
+	}
+	decodeString := string(decodeSigned)
+	byteMessage := []byte(message)
+	byteSigned := []byte(decodeString)
+
+	hashed := sha256.New()
+	hashed.Write(byteMessage)
+	digest := hashed.Sum(nil)
+
+	err = rsa.VerifyPKCS1v15(publickey, crypto.SHA256, digest, byteSigned)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Println("VERIFIED")
+	return
+}
+
 func main() {
 	fmt.Println("Working Properly with signed : kLqqHbvfPn0HM3zDS5HWc8rK4DcpEAsGClRVjZP9e0KZzODo+8f38X1ZEMOZ+PjtSmA/H+g42q2VxEu1y+Pq3A== && text : Hello")
 	fmt.Printf("\n\n ================ Generating Publick Key ================== \n\n")
@@ -128,4 +153,9 @@ func main() {
 	fmt.Println(signedPayLoad)
 	fmt.Printf("\n\n ================ Verify With Generated Public Key Key ================== \n\n")
 	verifySignatureWithPublicKey("Hello", signedPayLoad, publicSecKey)
+	fmt.Printf("\n\n\n")
+	signedBaseSixtyFour := base64.StdEncoding.EncodeToString([]byte(signedPayLoad))
+	fmt.Println("BASE 64 :", signedBaseSixtyFour)
+	fmt.Printf("\n\n ================ Verify With Generated Public Key Key using signed base64 ================== \n\n")
+	verifyBase64SignatureWithPublicKey("Hello", signedBaseSixtyFour, publicSecKey)
 }
