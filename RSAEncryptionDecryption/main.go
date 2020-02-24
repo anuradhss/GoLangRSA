@@ -3,6 +3,7 @@ package main
 import (
 	"crypto/rand"
 	"crypto/rsa"
+	"encoding/base64"
 	"fmt"
 )
 
@@ -53,6 +54,10 @@ func main() {
 	fmt.Println("Publick Key : ", publickey)
 	fmt.Printf("\n\n ========================== Enctrypt Given Message With Public Key ========================== \n\n")
 	encryptedMessage := encryptWithPublicKey("hello anuradh", publickey)
+	//
+	str := base64.StdEncoding.EncodeToString([]byte(encryptedMessage))
+	fmt.Println("CHANAKA : ", str)
+	//
 	fmt.Println("Encrypted Message  :", encryptedMessage)
 	fmt.Printf("\n\n ========================== Decrypt Given Encrypted Message With Private Key ========================== \n\n")
 	decryptedMessage := decryptWithPrivateKey(encryptedMessage, privatekey)
