@@ -1,4 +1,4 @@
-### This Repo Address to Basic RSA functions and PKI Infrastructure With Go :
+### This Repo Addresses to Basic RSA functions and PKI Infrastructure With Go :
 
 ### `To Run`
 navigate to the section and do `go run main.go`. to see the sections please use below structure.
